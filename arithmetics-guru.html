@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Arithmetics Guru</title>
+    <link rel="stylesheet" href="assets/css/arithmetics-guru.css">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu:400,400i,700&amp;subset=cyrillic-ext" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+
+            crossorigin="anonymous"></script>
+    <script src="assets/js/arithmetics-guru.js"></script>
+</head>
+<body>
+<div class="game">
+    <h3 class="game__title">Гуру арифметики</h3>
+    <div class="post-game">
+        <p class="post-game__title">Игра завершена</p>
+        <div class="final-score">
+            <span class="final-score__title">Ваш результат: </span>
+            <span class="final-score__value">0</span>
+        </div>
+    </div>
+    <div class="game__controls">
+        <label class="game__mode-title" for="game__mode">Выберите режим игры:</label>
+        <br>
+        <select name="mode" id="game__mode" class="game__mode">
+            <option value="all">все операции</option>
+            <option value="addition">добавление</option>
+            <option value="subtraction">вычитание</option>
+            <option value="multiplication">умножение</option>
+            <option value="division">деление</option>
+        </select>
+        <br>
+        <a class="button game__start">Начать игру</a>
+    </div>
+    <div class="score">
+        <span class="score__title">Результат:</span>
+        <span class="score__value">0</span>
+    </div>
+    <div class="task">
+        <span class="countdown-bar"></span>
+        <span class="countdown">5</span>
+        <span id="operand1">3</span>
+        <span id="operator">+</span>
+        <span id="operand2">2</span>
+        <span id="equals">=</span>
+        <span id="answer">?</span>
+    </div>
+    <div class="keyboard">
+        <div class="row">
+            <div id="key-1" class="key">1</div>
+            <div id="key-2" class="key">2</div>
+            <div id="key-3" class="key">3</div>
+        </div>
+        <div class="row">
+            <div id="key-4" class="key">4</div>
+            <div id="key-5" class="key">5</div>
+            <div id="key-6" class="key">6</div>
+        </div>
+        <div class="row">
+            <div id="key-7" class="key">7</div>
+            <div id="key-8" class="key">8</div>
+            <div id="key-9" class="key">9</div>
+        </div>
+        <div class="row">
+            <div id="key-0" class="key zero">0</div>
+            <div id="key-c" class="key clear">c</div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
