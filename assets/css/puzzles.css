@@ -1,0 +1,201 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Ubuntu', sans-serif;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+.game {
+    background: #1C629C;
+    margin: auto;
+    text-align: center;
+    width: 700px;
+    padding-top: 1px;
+    min-height: 500px;
+    position: relative;
+}
+
+.game__controls {
+    padding: 50px 0;
+}
+
+.game__title {
+    font-size: 25px;
+    text-transform: uppercase;
+    color: #FFF;
+}
+
+.game__dificulcy-title {
+    font-size: 17px;
+    font-weight: 800;
+    color: #fff;
+}
+
+.game__dificulcy {
+    font-size: 15px;
+    border-radius: 3px;
+    margin: 10px 0 0;
+
+}
+
+.game__start {
+    display: inline-block;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 20px;
+    color: #000;
+    border-radius: 5px;
+    padding: 10px 20px;
+    background: #fff;
+    margin: 10px 0 5px;
+    text-decoration: none;
+}
+
+.game__start:active {
+    background-color: #000;
+    color: #fff;
+}
+
+.task {
+    display: none;
+    position: relative;
+    width: 500px;
+    height: 500px;
+    -webkit-background-size: cover;
+    background-size: cover;
+    background-position: 50% 50%;
+    margin: auto;
+}
+
+.answers {
+    border: 1px solid #fff;
+    height: 100%;
+    font-size: 0;
+    overflow: hidden;
+    width: 100%;
+}
+
+.answer {
+    background: #0080007a;
+    border: 1px solid #fff;
+    display: inline-block;
+    font-size: 20px;
+}
+
+.dificulcy-2 .answer {
+    width: 50%;
+    height: 50%;
+    line-height: 250px;
+}
+
+.dificulcy-3 .answer {
+    width: 33.3%;
+    height: 33.3%;
+    line-height: 166px;
+}
+
+.dificulcy-4 .answer {
+    width: 25%;
+    height: 25%;
+    line-height: 125px;
+}
+
+.dificulcy-5 .answer {
+    width: 20%;
+    height: 20%;
+    line-height: 100px;
+}
+
+.score {
+    color: #fff;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    padding: 5px 10px;
+}
+
+.task .countdown-bar {
+    background-color: rgba(224, 0, 0, 0.25);
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 20px;
+    color: #fff;
+    width: 100%;
+    height: 100%;
+    animation: anim-countdown 5s;
+}
+
+@keyframes anim-countdown {
+    from {
+        width: 100%;
+    }
+    to {
+        width: 0;
+    }
+}
+
+.task .countdown {
+    display: block;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 25px;
+    color: #1c629c;
+}
+
+.keyboard {
+    display: none;
+    font-size: 0;
+    margin: 30px 0;
+}
+
+.keyboard .key {
+    background: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 20px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    text-transform: uppercase;
+    width: 80px;
+    margin: 5px;
+}
+
+.keyboard .key:active {
+    background-color: #000;
+    color: #fff;
+}
+
+.keyboard .key.zero {
+    width: 170px;
+}
+
+.post-game {
+    display: none;
+    background: #fff;
+    padding: 10px;
+    box-shadow: 0 0 5px 0px black inset;
+}
+
+.post-game__title {
+    color: #f51f55;
+    font-size: 25px;
+    margin: 0 0 10px 0;
+}
+
+.final-score {
+    color: #94caf7;
+    font-size: 17px;
+    font-weight: 800;
+}
+
+/*.row {*/
+/*margin: 0 -5px;*/
+/*}*/
