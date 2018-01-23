@@ -13,7 +13,7 @@
     margin: auto;
     text-align: center;
     width: 700px;
-    padding-top: 1px;
+    padding: 1px 0;
     min-height: 500px;
     position: relative;
 }
@@ -38,7 +38,6 @@
     font-size: 15px;
     border-radius: 3px;
     margin: 10px 0 0;
-
 }
 
 .game__start {
@@ -61,13 +60,45 @@
 
 .task {
     display: none;
+    background: #fff;
+    padding: 5px 15px;
+    position: relative;
+    box-shadow: 0 0 5px 0px black inset;
+    font-size: 35px;
+    margin-bottom: 30px;
+    min-width: 200px;
+}
+
+.puzzle {
+    display: none;
     position: relative;
     width: 500px;
     height: 500px;
     -webkit-background-size: cover;
     background-size: cover;
     background-position: 50% 50%;
-    margin: auto;
+    margin: 0 auto 30px;
+}
+
+.congrats {
+    display: none;
+    font-size: 30px;
+    margin-top: -80px;
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    background: #212121bd;
+    color: #fff;
+    border: solid #fff;
+    padding-top: 10px;
+    border-width: 0 1px 0 1px;
+}
+
+.next-puzzle-timeout {
+    color: #0fc98a;
+    display: inline-block;
+    font-size: 50px;
+    margin: 10px 0;
 }
 
 .answers {
@@ -79,10 +110,28 @@
 }
 
 .answer {
-    background: #0080007a;
+    background: #12334f;
+    color: #75b8f0;
+    cursor: pointer;
     border: 1px solid #fff;
     display: inline-block;
     font-size: 20px;
+}
+
+.answer.wrong {
+    animation: wrong-answer 300ms;
+}
+
+@keyframes wrong-answer {
+    0% {
+        background: #12334f;
+    }
+    50% {
+        background: red;
+    }
+    100% {
+        background: #12334f;
+    }
 }
 
 .dificulcy-2 .answer {
@@ -109,6 +158,12 @@
     line-height: 100px;
 }
 
+.dificulcy-10 .answer {
+    width: 10%;
+    height: 10%;
+    line-height: 50px;
+}
+
 .score {
     color: #fff;
     position: absolute;
@@ -127,7 +182,8 @@
     color: #fff;
     width: 100%;
     height: 100%;
-    animation: anim-countdown 5s;
+    animation-name: anim-countdown;
+    animation-timing-function: ease-in;
 }
 
 @keyframes anim-countdown {
@@ -187,7 +243,7 @@
 .post-game__title {
     color: #f51f55;
     font-size: 25px;
-    margin: 0 0 10px 0;
+    margin: 0;
 }
 
 .final-score {

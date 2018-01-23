@@ -1,21 +1,24 @@
 $(function () {
-    var taskTime = 150; //seconds
-    var currentScore = 0;
-    var currentResult;
-    var currentPos = 0;
-    var task = $('.task'),
+    var taskTime = 3, //single task time
+        newPuzzleTimeout = 3,
+        imagesCount = 8;
+
+    var puzzle = $('.puzzle'),
+        task = $('.task'),
         controls = $('.game__controls'),
         answer = $('#answer'),
         score = $('.score__value');
 
     var currentTimer;
-    var answerPlaceholder;
-    var answerLength;
     var gameDificulcy;
+    var tasks,
+        currentTask,
+        answersEnabled = false;
 
     $('.game__start').on('click', startGame);
 
     function startGame() {
+        puzzle.show();
         task.show();
         controls.hide();
         $('.post-game').hide();
@@ -27,23 +30,85 @@ $(function () {
 
     function setDificulcy() {
         gameDificulcy = parseInt($('#game__dificulcy option:selected').val());
-        var taskClasses = task.attr('class').split(' ');
-        $.each(taskClasses, function (i, item) {
+        var puzzleClasses = puzzle.attr('class').split(' ');
+        $.each(puzzleClasses, function (i, item) {
             if (~item.indexOf('dificulcy')) {
-                taskClasses[i] = 'dificulcy-' + gameDificulcy;
+                puzzleClasses[i] = 'dificulcy-' + gameDificulcy;
             }
         });
-        taskClasses = taskClasses.join(' ');
-        task.attr('class', taskClasses);
+        puzzleClasses = puzzleClasses.join(' ');
+        puzzle.attr('class', puzzleClasses);
     }
 
     function newPuzzle() {
+        var imageId = Math.floor(Math.random() * (imagesCount - 1) + 1);
+        var imageName = 'images/puzzles/image-' + imageId + '.jpg';
+        puzzle.css('background-image', 'url("' + imageName + '")');
         var tasksCount = Math.pow(gameDificulcy, 2);
-        var tasks = [];
+        var countdownTime = tasksCount * taskTime;
+        tasks = [];
+        var answers = $('.puzzle .answer');
         for (var i = 0; i < tasksCount; i++) {
-            tasks.push(newTask());
+            var task = newTask();
+            tasks.push(task);
+            $(answers[i]).text(task.answer).css('visibility', 'visible');
         }
-        console.log(tasks);
+        $('.countdown, .countdown-bar').show();
+        nextTask();
+        startCountdown(countdownTime);
+    }
+
+    function nextTask() {
+        if (tasks.length > 0) {
+            var taskId = Math.floor(Math.random() * (tasks.length - 1));
+            currentTask = tasks[taskId];
+            tasks.splice(taskId, 1);
+            // console.log(taskId);
+            $('#operand1').text(currentTask.operand1);
+            $('#operand2').text(currentTask.operand2);
+            $('#operator').text(currentTask.operatorSign);
+        } else {
+            congrats();
+        }
+    }
+
+    function readAnswer() {
+        if (!answersEnabled) {
+            answersEnabled = true;
+            $('.answer').on('click', function _answerClick() {
+                var answer = $(this);
+                console.log(answer.text());
+                if (currentTask.answer == answer.text()) {
+                    answer.css('visibility', 'hidden');
+                    nextTask();
+                } else {
+                    answer.addClass('wrong');
+                    setTimeout(function () {
+                        answer.removeClass('wrong');
+                    }, 500);
+                }
+            });
+        }
+    }
+
+    function congrats() {
+        if (currentTimer) {
+            clearInterval(currentTimer);
+        }
+        $('.congrats').show();
+        $('.countdown, .countdown-bar').hide();
+        var timeoutTime = newPuzzleTimeout;
+        var timeout = $('.next-puzzle-timeout');
+        timeout.text(timeoutTime)
+        var timer = setInterval(function () {
+            timeoutTime--;
+            timeout.text(timeoutTime);
+            if (timeoutTime == 0) {
+                clearInterval(timer);
+                $('.congrats').hide();
+                newPuzzle();
+            }
+        }, 1000);
     }
 
     function newTask() {
@@ -84,108 +149,17 @@ $(function () {
         };
     }
 
-    function readAnswer() {
-        $(document).on('keydown', keyClick);
-        $('.key').on('click', checkAnswer);
-    }
-
-    function checkAnswer() {
-        var newAnswer = '';
-        if ($(this).text() != 'c') {
-            if (currentPos < answerLength) {
-                for (var i = 0; i < answerLength; i++) {
-                    if (i < currentPos) {
-                        newAnswer += answer.text()[i];
-                    } else if (i == currentPos) {
-                        newAnswer += $(this).text();
-                    } else {
-                        newAnswer += '?';
-                    }
-                }
-                currentPos++;
-                answer.text(newAnswer);
-                if (currentPos == answerLength) {
-                    // check answer if it is correct
-                    newAnswer = parseInt(newAnswer);
-                    if (newAnswer != currentResult) {
-                        setTimeout(function () {
-                            newAnswer = answerPlaceholder;
-                            answer.text(newAnswer);
-                            currentPos = 0;
-                        }, 500);
-                    } else {
-                        updateScore();
-                        $('.key').off('click', checkAnswer);
-                        $(document).off('keydown', keyClick);
-                        newTask();
-                        readAnswer();
-                    }
-                }
-            }
-        } else {
-            if (currentPos > 0) {
-                for (var i = 0; i < answerLength; i++) {
-                    if (i < currentPos - 1) {
-                        newAnswer += answer.text()[i];
-                    } else {
-                        newAnswer += '?';
-                    }
-                }
-                currentPos--;
-                answer.text(newAnswer);
-            }
-        }
-    }
-
-    function keyClick(e) {
-        var code = e.keyCode;
-        if ([35, 49, 97].includes(code)) {
-            $('#key-1').click();
-        } else if ([40, 50, 98].includes(code)) {
-            $('#key-2').click();
-        } else if ([34, 51, 99].includes(code)) {
-            $('#key-3').click();
-        } else if ([37, 52, 100].includes(code)) {
-            $('#key-4').click();
-        } else if ([12, 53, 101].includes(code)) {
-            $('#key-5').click();
-        } else if ([39, 54, 102].includes(code)) {
-            $('#key-6').click();
-        } else if ([36, 55, 103].includes(code)) {
-            $('#key-7').click();
-        } else if ([38, 56, 104].includes(code)) {
-            $('#key-8').click();
-        } else if ([33, 57, 105].includes(code)) {
-            $('#key-9').click();
-        } else if ([45, 48, 96].includes(code)) {
-            $('#key-0').click();
-        } else if ([8, 46].includes(code)) {
-            $('#key-c').click();
-        }
-    }
-
-    function updateScore() {
-        currentScore++;
-        score.text(currentScore);
-    }
-
     function gameOver() {
-        $('.key').off('click', checkAnswer);
-        $(document).off('keydown', keyClick);
-
-        $('.score').hide();
-        $('.final-score__value').text(currentScore);
-        $('.post-game').show();
-        keyboard.hide();
         task.hide();
+        puzzle.hide();
+        $('.post-game').show();
         controls.show();
-        currentScore = 0;
-        score.text(0);
     }
 
     function startCountdown(time) {
         var countdown = $('.countdown');
         var countdownBar = $(".countdown-bar");
+        countdownBar.css('animation-duration', time + 's');
         var maxTime = time;
         var newBar = countdownBar.clone(true);
         countdownBar.before(newBar);
